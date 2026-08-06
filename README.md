@@ -45,7 +45,8 @@ A fonte oficial inclui, no campo `Objeto`, dados pessoais de pessoas físicas (C
 ## Stack (100% gratuita)
 
 - **Coleta:** download manual no portal (a API de dados abertos do município não expôs microdados de despesa no momento da coleta)
-- **Limpeza e análise exploratória (EDA):** Google Sheets, com log de decisões documentado — [planilha de trabalho](https://docs.google.com/spreadsheets/d/1eGKH3fbfMlbLgkpZey8lyECBnbktY34-Gfe5AjESHYU/edit?usp=sharing)
+- **Limpeza:** Python (pandas), em notebook versionado (`notebooks/limpeza.ipynb`). Decisão tomada após uma primeira tentativa em Sheets: regras como deduplicar `VlEmpenhado`/`VlAnulado` por `Empenho`, remover rodapé e tratar encoding/datas exigiam fórmulas array pouco legíveis e difíceis de auditar. Em Python essas regras ficam explícitas e testáveis; o formato notebook (em vez de script) foi escolhido para manter cada etapa documentada com sua validação visível (nº de linhas, duplicatas removidas, totais) célula a célula — ver o passo a passo em `docs/prompt-limpeza-dados.md`.
+- **Análise exploratória (EDA):** Google Sheets, a partir da base já tratada em `data/clean/`, com log de decisões documentado — [planilha de trabalho](https://docs.google.com/spreadsheets/d/1eGKH3fbfMlbLgkpZey8lyECBnbktY34-Gfe5AjESHYU/edit?usp=sharing)
 - **Dashboard:** Looker Studio (link publicado abaixo)
 - **Versionamento:** Git + GitHub
 
@@ -56,9 +57,12 @@ dados-saude/
 ├── data/
 │   ├── raw/2025/        # 12 arquivos mensais originais, intocados
 │   ├── raw/2026/        # jan–jun para validação
-│   └── clean/           # base tratada e consolidada
+│   └── clean/           # base tratada e consolidada (saída do script de limpeza)
+├── notebooks/
+│   └── limpeza.ipynb    # limpeza em Python (pandas), passo a passo documentado
 ├── docs/
 │   ├── dicionario-dados.md
+│   ├── prompt-limpeza-dados.md
 │   └── log-limpeza.md
 ├── README.md
 └── LICENSE
